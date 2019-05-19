@@ -6,10 +6,17 @@
       :options="opts"
     ></bar-chart>
     <div class="date-selector">
-      <input type="date" />
-      <input type="time" />
+      <span>Algus:</span>
+      <input v-model="startDate" type="date" />
+      <input v-model="startTime" type="time" />
+      <br />
+      <span>Lõpp:</span>
+      <input v-model="endDate" type="date" />
+      <input v-model="endTime" type="time" />
+      <br />
     </div>
-    <a id="bar-chart-download" href="" download=""><button>Salvesta</button></a>
+    <button @click="getChartData">Vali</button>
+    <button @click="saveQuery">Salvesta</button>
   </div>
 </template>
 
@@ -18,6 +25,10 @@ import BarChart from "@/components/BarChart.vue";
 export default {
   data: function() {
     return {
+      startDate: null,
+      startTime: null,
+      endDate: null,
+      endTime: null,
       chartData: null,
       chartDataIsLoaded: false,
       opts: {
@@ -33,7 +44,34 @@ export default {
     this.getChartData();
   },
   methods: {
+    changeTime: function() {
+      console.log(this.startDate);
+      console.log(this.startTime);
+      console.log(this.endDate);
+      console.log(this.endTime);
+    },
+    saveQuery: function() {
+      let paramArray = [];
+      if (this.startDate != null && this.startDate != "") {
+        paramArray.push("startDate=" + this.startDate);
+        if (this.startTime != null && this.startTime != "") {
+          paramArray.push("startTime=" + this.startTime);
+        }
+      }
+      if (this.endDate != null && this.endDate != "") {
+        paramArray.push("endDate=" + this.endDate);
+        if (this.endTime != null && this.endTime != "") {
+          paramArray.push("endTime=" + this.endTime);
+        }
+      }
+      this.$http.post(
+        "http://iot.ermine.ee:3000/save-query?queryString=" +
+          paramArray.join("&") +
+          "&chartType=average"
+      );
+    },
     getChartData: function() {
+      this.chartDataIsLoaded = false;
       const hours = [
         {
           label: "00"
@@ -109,6 +147,7 @@ export default {
         }
       ];
       let parsedObjects = [];
+      let paramArray = [];
       let self = this;
       for (let i = 0; i < hours.length; i++) {
         hours[i].totalBlue = 0;
@@ -118,8 +157,26 @@ export default {
         hours[i].countRed = 0;
         hours[i].countNone = 0;
       }
+      if (this.startDate != null && this.endDate != null) {
+        paramArray.push("perPage=99999");
+      }
+      if (this.startDate != null && this.startDate != "") {
+        paramArray.push("startDate=" + this.startDate);
+        if (this.startTime != null && this.startTime != "") {
+          paramArray.push("startTime=" + this.startTime);
+        }
+      }
+      if (this.endDate != null && this.endDate != "") {
+        paramArray.push("endDate=" + this.endDate);
+        if (this.endTime != null && this.endTime != "") {
+          paramArray.push("endTime=" + this.endTime);
+        }
+      }
       this.$http
-        .get("http://iot.ermine.ee:3000/light-level-hist/all")
+        .get(
+          "http://iot.ermine.ee:3000/light-level-hist/all?" +
+            paramArray.join("&")
+        )
         .then(function(response) {
           for (let i = 0; i < response.data.length; i++) {
             let objectToParse = {};

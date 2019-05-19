@@ -2,6 +2,7 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
+      <router-link to="/saved-queries">Salvestatud päringud</router-link> |
       <router-link to="/homework">Kodutööd</router-link>
     </div>
     <router-view />

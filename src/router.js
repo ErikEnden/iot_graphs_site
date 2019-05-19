@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Homework from "./views/Homework.vue";
+import SavedGraphs from "./views/SavedGraphs.vue";
 
 Vue.use(Router);
 
@@ -16,6 +17,11 @@ export default new Router({
       path: "/homework",
       name: "homework",
       component: Homework
+    },
+    {
+      path: "/saved-queries",
+      name: "saved-queries",
+      component: SavedGraphs
     },
     {
       path: "/about",

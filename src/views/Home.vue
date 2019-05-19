@@ -27,16 +27,6 @@ export default {
       chartDataCurrentIsLoaded: false,
       chartDataAverageIsLoaded: false
     };
-  },
-  methods: {
-    generateChartDownloadLinks: function() {
-      let downloadLink = document.getElementById("line-chart-download");
-      downloadLink.href = "asd";
-      downloadLink.download = "sfad.png";
-    }
-  },
-  mounted: function() {
-    this.getChartDataAverage();
   }
 };
 </script>
