@@ -15,6 +15,9 @@
       <input v-model="endTime" type="time" />
       <br />
     </div>
+    <div>
+      <textarea v-model="comment" placeholder="Kommentaar"></textarea>
+    </div>
     <button @click="getChartData">Vali</button>
     <button @click="saveQuery">Salvesta</button>
   </div>
@@ -25,6 +28,7 @@ import BarChart from "@/components/BarChart.vue";
 export default {
   data: function() {
     return {
+      comment: "",
       startDate: null,
       startTime: null,
       endDate: null,
@@ -67,7 +71,8 @@ export default {
       this.$http.post(
         "http://iot.ermine.ee:3000/save-query?queryString=" +
           paramArray.join("&") +
-          "&chartType=average"
+          "&chartType=average&comment=" +
+          this.comment
       );
     },
     getChartData: function() {

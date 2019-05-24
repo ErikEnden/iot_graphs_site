@@ -28,6 +28,10 @@ export default {
     chartData: {
       type: Array,
       default: null
+    },
+    comment: {
+      type: String,
+      default: ""
     }
   },
   components: {

@@ -1,16 +1,18 @@
 <template>
-  <div class="container" v-if="chartDataIsLoaded">
+  <div class="container" v-if="chartsToLoad === chartsLoaded">
     <current-data-chart-blank
       v-for="item in currentCharts"
       :key="item.id"
       :options="opts"
       :chartData="item.data"
+      :comment="item.comment"
     ></current-data-chart-blank>
     <average-data-chart-blank
       v-for="item in averageCharts"
       :key="item.id"
       :options="opts"
       :chartData="item.data"
+      :comment="item.comment"
     ></average-data-chart-blank>
   </div>
 </template>
@@ -29,6 +31,7 @@ export default {
       averageCharts: [],
       chartDataIsLoaded: false,
       chartsLoaded: 0,
+      chartsToLoad: null,
       opts: {
         responsive: true,
         maintainAspectRatio: false
@@ -43,6 +46,7 @@ export default {
         .then(function(response) {
           for (let i = 0; i < response.data.length; i++) {
             console.log(response.data[i]);
+            self.chartsToLoad = response.data.length;
             if (response.data[i].chart_type === "average") {
               self.averageCharts.push(response.data[i]);
               console.log(self.averageCharts.length);
@@ -73,6 +77,7 @@ export default {
             self.averageCharts[i].data = response.data;
           });
         self.chartsLoaded += 1;
+        console.log(self.chartsLoaded);
       }
       for (let i = 0; i < this.currentCharts.length; i++) {
         console.log(this.currentCharts[i]);
@@ -86,23 +91,13 @@ export default {
           )
           .then(function(response) {
             self.currentCharts[i].data = response.data;
-            console.log(self.currentCharts);
+            console.log(self.chartsLoaded);
             self.chartsLoaded += 1;
           });
       }
     }
   },
-  watch: {
-    chartsLoaded: function(value) {
-      if (value === 5) {
-        this.chartDataIsLoaded = true;
-      } else {
-        setTimeout(function() {
-          this.chartsLoaded = 5;
-        }, 2000);
-      }
-    }
-  },
+
   mounted: function() {
     this.getSavedQueries();
   }

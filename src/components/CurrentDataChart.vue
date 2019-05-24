@@ -15,6 +15,9 @@
       <input v-model="endTime" type="time" />
       <br />
     </div>
+    <div>
+      <textarea v-model="comment" placeholder="Kommentaar"></textarea>
+    </div>
     <button @click="getChartData">Vali</button>
     <button @click="saveQuery">Salvesta</button>
   </div>
@@ -29,6 +32,7 @@ export default {
   },
   data: function() {
     return {
+      comment: "",
       startDate: null,
       startTime: null,
       endDate: null,
@@ -133,7 +137,8 @@ export default {
       this.$http.post(
         "http://iot.ermine.ee:3000/save-query?queryString=" +
           paramArray.join("and") +
-          "&chartType=current"
+          "&chartType=current&comment=" +
+          this.comment
       );
     }
   }

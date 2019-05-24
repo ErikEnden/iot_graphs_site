@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <other-data-chart> </other-data-chart>
+    <other-data-chart :filename="'humidity-temperature.json'" />
+    <other-data-chart :filename="'moist-dirt-temperature.json'" />
   </div>
 </template>
 
