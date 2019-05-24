@@ -1,10 +1,14 @@
 <template>
   <div class="chart current-data-chart">
+    <div class="comment">
+      {{ comment }}
+    </div>
     <line-chart
       v-if="chartDataIsLoaded"
       :chartData="chartData"
       :options="opts"
     ></line-chart>
+    <hr />
   </div>
 </template>
 

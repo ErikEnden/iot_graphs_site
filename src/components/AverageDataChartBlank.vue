@@ -1,10 +1,14 @@
 <template>
   <div class="chart average-data-chart" v-if="chartDataIsLoaded">
+    <div class="comment">
+      {{ comment }}
+    </div>
     <bar-chart
       v-if="chartDataIsLoaded"
       :chartData="chartData"
       :options="opts"
     ></bar-chart>
+    <hr />
   </div>
 </template>
 
@@ -65,6 +69,7 @@ export default {
       );
     },
     formatChartData: function() {
+      console.log(this.chartData);
       this.chartDataIsLoaded = false;
       const hours = [
         {

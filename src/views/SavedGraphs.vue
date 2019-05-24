@@ -1,5 +1,5 @@
 <template>
-  <div class="container" v-if="chartsToLoad === chartsLoaded">
+  <div class="container graphs-container" v-if="chartsToLoad === chartsLoaded">
     <current-data-chart-blank
       v-for="item in currentCharts"
       :key="item.id"
@@ -44,9 +44,9 @@ export default {
       this.$http
         .get("http://iot.ermine.ee:3000/saved-queries")
         .then(function(response) {
+          self.chartsToLoad = response.data.length;
           for (let i = 0; i < response.data.length; i++) {
             console.log(response.data[i]);
-            self.chartsToLoad = response.data.length;
             if (response.data[i].chart_type === "average") {
               self.averageCharts.push(response.data[i]);
               console.log(self.averageCharts.length);
@@ -59,8 +59,6 @@ export default {
     },
     populateChartData: function() {
       console.log("hello");
-      console.log(this.averageCharts.length);
-      console.log(this.currentCharts.length);
       let self = this;
       for (let i = 0; i < this.averageCharts.length; i++) {
         this.averageCharts[i].query = this.averageCharts[i].query.replace(
@@ -75,9 +73,13 @@ export default {
           )
           .then(function(response) {
             self.averageCharts[i].data = response.data;
+            self.chartsLoaded += 1;
+            console.log(
+              "loaded " + self.chartsLoaded + "of " + self.chartsToLoad
+            );
           });
-        self.chartsLoaded += 1;
-        console.log(self.chartsLoaded);
+
+        console.log(this.averageCharts);
       }
       for (let i = 0; i < this.currentCharts.length; i++) {
         console.log(this.currentCharts[i]);
@@ -91,8 +93,10 @@ export default {
           )
           .then(function(response) {
             self.currentCharts[i].data = response.data;
-            console.log(self.chartsLoaded);
             self.chartsLoaded += 1;
+            console.log(
+              "loaded " + self.chartsLoaded + "of " + self.chartsToLoad
+            );
           });
       }
     }
@@ -104,4 +108,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.graphs-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+</style>
