@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Homework from "./views/Homework.vue";
 import SavedGraphs from "./views/SavedGraphs.vue";
+import OtherGraphs from "./views/OtherGraphs.vue";
 
 Vue.use(Router);
 
@@ -22,6 +23,11 @@ export default new Router({
       path: "/saved-queries",
       name: "saved-queries",
       component: SavedGraphs
+    },
+    {
+      path: "/other-graphs",
+      name: "other-graphs",
+      component: OtherGraphs
     },
     {
       path: "/about",

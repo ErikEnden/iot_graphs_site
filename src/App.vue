@@ -3,7 +3,8 @@
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/saved-queries">Salvestatud päringud</router-link> |
-      <router-link to="/homework">Kodutööd</router-link>
+      <router-link to="/homework">Kodutööd</router-link> |
+      <router-link to="/other-graphs">Teised graafikud</router-link>
     </div>
     <router-view />
   </div>
