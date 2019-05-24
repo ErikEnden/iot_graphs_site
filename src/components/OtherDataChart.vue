@@ -62,7 +62,7 @@ export default {
         this.$http.get(this.filename).then(function(response) {
           console.log(response);
           for (let i = 0; i < response.data.length; i++) {
-            measurementsTemp.push(response.data[i].tenperatuur);
+            measurementsTemp.push(response.data[i].temperatuur);
             measurementsMoisture.push(response.data[i].mullaniiskus);
             measurementTimes.push(
               Moment(response.data[i].kuupäev).format("D/M/YYYY HH:mm:ss")
@@ -89,7 +89,7 @@ export default {
         this.$http.get(this.filename).then(function(response) {
           console.log(response);
           for (let i = 0; i < response.data.length; i++) {
-            measurementsTemp.push(response.data[i].tenperature);
+            measurementsTemp.push(response.data[i].temperature);
             measurementsMoisture.push(response.data[i].humidity);
             measurementTimes.push(
               Moment(response.data[i].date).format("D/M/YYYY HH:mm:ss")
